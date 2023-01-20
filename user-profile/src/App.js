@@ -1,10 +1,11 @@
 import './App.css';
-import { InputField } from './components/InputField';
+import { CandidatePersonalInfo } from './components/CandidatePersonalInfo';
+
 
 function App() {
   return (
     <div className="App">
-      <InputField></InputField>
+     <CandidatePersonalInfo></CandidatePersonalInfo>
     </div>
   );
 }
