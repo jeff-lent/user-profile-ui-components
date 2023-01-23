@@ -1,11 +1,16 @@
-export function InputField({ inputType, placeholder, className, icon, children }) {
+export function InputField({ inputType, input_field, placeholder, className, required, icon }) {
+
+
     return (
         <>
-
-            {/* This is Icon for the input-field which is visible inside the input-field */}
-            <i className={icon +" "+"info-icon"}></i>
-            {/* This is common input-field for only textual text-field */}
-            <input type={inputType} placeholder={placeholder} className={className}  />
+            <i class={icon + " input-field-icons"}></i>
+            <input
+                type={inputType}
+                placeholder={placeholder}
+                name={input_field}
+                className={className + " input-fields"}
+                required={required}
+            ></input>
         </>
     )
 }
