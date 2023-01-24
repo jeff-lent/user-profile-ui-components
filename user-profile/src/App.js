@@ -1,5 +1,5 @@
 import './App.css';
-import { CandidatePersonalInfo } from './components/CandidatePersonalInfo';
+import CandidatePersonalInfo from './components/CandidatePersonalInfo/CandidatePersonalInfo';
 
 
 function App() {

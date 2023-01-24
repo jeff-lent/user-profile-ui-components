@@ -1,0 +1,8 @@
+/*      DropDown         */
+.select {
+    width: 240px;
+}
+
+.option {
+    text-transform: capitalize;
+}
