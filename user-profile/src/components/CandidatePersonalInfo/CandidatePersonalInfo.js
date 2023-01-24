@@ -116,22 +116,25 @@ function CandidatePersonalInfo() {
 
         <div className="main-container">
             <form className="form" onSubmit={onSubmit}>
+                <div className="inner-container">
                 <Heading className="personal-info-heading" text="Personal Information"/>
-                <InputField value={firstname} handler={handleFirstname} type='text' placeholder='First Name' className='first-name-input' required='required' icon='fa-solid fa-user'></InputField>
-                <InputField value={lastname} handler={handleLastname} type='text' placeholder='Last Name' className='last-name-input' required='required' icon='fa-regular fa-user'></InputField> <br />
-                <DropdownField value={gender} handler={handleGender} options={['Male', 'Female']} placeholder='Gender' icon='fa-sharp fa-solid fa-person-dress' />
-                <DropdownField value={maritalstat} handler={handleMaritalstat} options={['Single', 'Married']} placeholder='Marital Status' icon='fa-solid fa-heart' /><br />
-                <InputField value={nin} handler={handleNin} type='text' placeholder='CNIC/Nation ID' className='cnic-input' required='required' icon='fa-solid fa-address-card'></InputField>
-                <InputField value={dob} handler={handleDob} type='date' placeholder='' className='date-input' required='required' icon='fa-solid fa-calendar-days'></InputField> <br />
-                <InputField disabled={true} value={email} type='email' placeholder='Email' className='email-input' required='required' icon='fa-solid fa-envelope'></InputField> <br />
-                <PhoneComponent value={phone} handler={handlePhone} placeholder='Mobile Number' type='text' className='contact-input' required='required' />
-                <InputField value={city} handler={handleCity} type='text' placeholder='City' className='city-input' required='required' icon='ffa-sharp fa-solid fa-city'></InputField> <br />
-                <InputField value={address} handler={handleAddress} type='text' placeholder='Address' className='address-input' required='required' icon='fa-solid fa-location-dot'></InputField> <br />
-                <InputField value={linkedin} handler={handleLinkedin} type='text' placeholder='LinkedIn Profile' className='linkedin-input' required='required' icon='fa-brands fa-linkedin'></InputField> <br />
-                <Button type="submit" text="Save" />
+                <InputField value={firstname} handler={handleFirstname} type='text' placeholder='First Name' className='first-name-input' required='required' icon='fa-solid fa-user' cnic_field={false}></InputField>
+                <InputField value={lastname} handler={handleLastname} type='text' placeholder='Last Name' className='last-name-input' required='required' icon='fa-regular fa-user' cnic_field={false}></InputField> <br />
+                <DropdownField value={gender} handler={handleGender} options={['Male', 'Female']} placeholder='Gender' icon='fa-sharp fa-solid fa-person-dress'  cnic_field={false}/>
+                <DropdownField value={maritalstat} handler={handleMaritalstat} options={['Single', 'Married']} placeholder='Marital Status' icon='fa-solid fa-heart'  cnic_field={false}/><br />
+                <InputField value={nin} handler={handleNin} type='text' placeholder='CNIC/Nation ID' className='cnic-input' required='required' icon='fa-solid fa-address-card' cnic_field={true}></InputField>
+                <InputField value={dob} handler={handleDob} type='date' placeholder='' className='date-input' required='required' icon='fa-solid fa-calendar-days' cnic_field={false}></InputField> <br />
+                <InputField disabled={true} value={email} type='email' placeholder='Email' className='email-input' required='required' icon='fa-solid fa-envelope' cnic_field={false}></InputField> <br />
+                <PhoneComponent value={phone} handler={handlePhone} placeholder='Mobile Number' type='text' className='contact-input' required='required'  cnic_field={false}/>
+                <InputField value={city} handler={handleCity} type='text' placeholder='City' className='city-input' required='required' icon='ffa-sharp fa-solid fa-city' cnic_field={false}></InputField> <br />
+                <InputField value={address} handler={handleAddress} type='text' placeholder='Address' className='address-input' required='required' icon='fa-solid fa-location-dot' cnic_field={false}></InputField> <br />
+                <InputField value={linkedin} handler={handleLinkedin} type='text' placeholder='LinkedIn Profile' className='linkedin-input' required='required' icon='fa-brands fa-linkedin' cnic_field={false}></InputField> <br />
+                <Button type="submit" text="Save" className='save-button'/>
+                </div>
             </form>
             
-                <Button onClick={goToNextPage} disabled={false} text="Next" />
+                <Button onClick={goToNextPage} disabled={false} text="Next" className='next-button' />
+                
                 
         </div>
 

@@ -1,0 +1,25 @@
+
+.save-button, .next-button {
+    float: right;
+    position: relative;
+    right: 100px;
+    padding: 13px;
+    border-radius: 12px;
+    width: 80px;
+    background-color: #638bee;
+    border: 1px solid white;
+    outline: none;
+    font-size: 1.1rem;
+    color: white;
+    cursor: pointer;
+    transition: ease-out 500ms;  
+}
+.save-button:hover, .next-button:hover{
+    color: black;
+    background-color: white;
+    border: 1px solid #638bee;
+}
+.next-button {
+    top: 302px;
+    right: 110px;
+}
