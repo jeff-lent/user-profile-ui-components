@@ -1,4 +1,9 @@
-/*          it is inner div in phoneinput     */
+.PhoneInput {
+    display: flex;
+    margin-left: 15px;
+    
+}
+
 .PhoneInputCountry {
     display: flex;
 }
@@ -30,4 +35,10 @@
     outline: none;
     height: 100%;
     width: 100%;
+}
+
+.global-icon {
+    position: relative;
+    top: 43px;
+    left: 25px;
 }

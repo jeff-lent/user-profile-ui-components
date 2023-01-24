@@ -6,12 +6,8 @@
     left: 25px;
 
 }
-.global-icon {
-    position: relative;
-    top: 43px;
-    left: 25px;
-}
-.input-fields , .select {
+
+.input-fields {
   padding: 10px 10px 10px 30px;
   margin: 10px 0px;
   font-size: 1.2rem;
@@ -25,16 +21,8 @@
 .input-fields:hover, .PhoneInputCountrySelect:hover {
   background-color: #ebe6e6;
 }
-.first-name-input , .last-name-input, .cnic-input, .date-input, .select{
+.first-name-input , .last-name-input, .cnic-input, .date-input {
   width: 200px;
-}
-
-/* Css for number input */
-
-.PhoneInput {
-    display: flex;
-    margin-left: 15px;
-    
 }
 
 

@@ -105,14 +105,18 @@ function CandidatePersonalInfo() {
             referrerPolicy: 'no-referrer',
             body: JSON.stringify(data)
         });
-        console.log(response);
+        console.log(response, response.body);
+    }
+
+    const goToNextPage = () => {
+        alert('next Page');
     }
 
     return (
 
         <div className="main-container">
             <form className="form" onSubmit={onSubmit}>
-                <Heading className="personal-info-heading" text="Personal Information" />
+                <Heading className="personal-info-heading" text="Personal Information"/>
                 <InputField value={firstname} handler={handleFirstname} type='text' placeholder='First Name' className='first-name-input' required='required' icon='fa-solid fa-user'></InputField>
                 <InputField value={lastname} handler={handleLastname} type='text' placeholder='Last Name' className='last-name-input' required='required' icon='fa-regular fa-user'></InputField> <br />
                 <DropdownField value={gender} handler={handleGender} options={['Male', 'Female']} placeholder='Gender' icon='fa-sharp fa-solid fa-person-dress' />
@@ -124,8 +128,11 @@ function CandidatePersonalInfo() {
                 <InputField value={city} handler={handleCity} type='text' placeholder='City' className='city-input' required='required' icon='ffa-sharp fa-solid fa-city'></InputField> <br />
                 <InputField value={address} handler={handleAddress} type='text' placeholder='Address' className='address-input' required='required' icon='fa-solid fa-location-dot'></InputField> <br />
                 <InputField value={linkedin} handler={handleLinkedin} type='text' placeholder='LinkedIn Profile' className='linkedin-input' required='required' icon='fa-brands fa-linkedin'></InputField> <br />
-                <Button type="submit" text="Save & Next" className="" />
+                <Button type="submit" text="Save" />
             </form>
+            
+                <Button onClick={goToNextPage} disabled={false} text="Next" />
+                
         </div>
 
     )
