@@ -1,18 +1,19 @@
 import './InputField.css';
 
-function InputField({ type, placeholder, className, required, icon, value, handler, disabled }) {
+function InputField({ type, placeholder, className, required, icon, value, handler, disabled, pattern }) {
     return (
         <>
             <i class={icon + " input-field-icons"}></i>
-                   <input
-                    disabled={disabled}
-                    value={value}
-                    onChange={e => handler(e.target.value)}
-                    type={type}
-                    placeholder={placeholder}
-                    className={className + " input-fields"}
-                    required={required}
-                />
+            <input
+                pattern={pattern}
+                disabled={disabled}
+                value={value}
+                onChange={e => handler(e)}
+                type={type}
+                placeholder={placeholder}
+                className={className + " input-fields"}
+                required={required}
+            />
 
         </>
     )
