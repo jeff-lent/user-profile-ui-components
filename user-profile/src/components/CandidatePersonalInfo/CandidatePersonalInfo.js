@@ -5,6 +5,7 @@ import PhoneComponent from "../PhoneComponent/PhoneComponent";
 import Button from "../Button/Button";
 import Heading from "../Heading/Heading";
 import "./CandidatePersonalInfo.css";
+import { AlertMessage } from "../AlertMessage";
 
 
 function CandidatePersonalInfo() {
@@ -20,6 +21,10 @@ function CandidatePersonalInfo() {
     const [maritalstat, setMaritalstat] = useState('');
     const [email, setEmail] = useState('dummy@email.com');
     const [phone, setPhone] = useState('');
+    const [showAlert, setAlert]=useState(false);
+    const [alertType, setalertType]= useState('alert');
+    const [message, setMessage] = useState('')
+    const [apiResponse, setapiResponse]=useState(false)
 
     const [userData, setUserData] = useState(null);
     const signupServiceUrl = '';
@@ -91,7 +96,6 @@ function CandidatePersonalInfo() {
             maritalStatus: maritalstat,
             phone: phone
         }
-        console.log(data)
 
         const response = await fetch(url, {
             method: 'POST',
@@ -105,38 +109,44 @@ function CandidatePersonalInfo() {
             referrerPolicy: 'no-referrer',
             body: JSON.stringify(data)
         });
-        console.log(response, response.body);
+        setapiResponse(response.ok);
     }
 
-    const goToNextPage = () => {
-        alert('next Page');
+
+    const saveButtonHandler = () =>{
+        setMessage('Information Saved Successfully!');
+        setalertType('info');
+        setAlert(true)
+        console.log(message);
+    
     }
 
     return (
-
+        <>
         <div className="main-container">
-            <form className="form" onSubmit={onSubmit}>
-                <div className="inner-container">
+               <form className="form" onSubmit={onSubmit}>
+            {showAlert ? <AlertMessage showAlert={showAlert} setAlert={setAlert} alertType={alertType} message={message}/> : ''} 
                 <Heading className="personal-info-heading" text="Personal Information"/>
-                <InputField value={firstname} handler={handleFirstname} type='text' placeholder='First Name' className='first-name-input' required='required' icon='fa-solid fa-user' cnic_field={false}></InputField>
-                <InputField value={lastname} handler={handleLastname} type='text' placeholder='Last Name' className='last-name-input' required='required' icon='fa-regular fa-user' cnic_field={false}></InputField> <br />
-                <DropdownField value={gender} handler={handleGender} options={['Male', 'Female']} placeholder='Gender' icon='fa-sharp fa-solid fa-person-dress'  cnic_field={false}/>
-                <DropdownField value={maritalstat} handler={handleMaritalstat} options={['Single', 'Married']} placeholder='Marital Status' icon='fa-solid fa-heart'  cnic_field={false}/><br />
-                <InputField value={nin} handler={handleNin} type='text' placeholder='CNIC/Nation ID' className='cnic-input' required='required' icon='fa-solid fa-address-card' cnic_field={true}></InputField>
-                <InputField value={dob} handler={handleDob} type='date' placeholder='' className='date-input' required='required' icon='fa-solid fa-calendar-days' cnic_field={false}></InputField> <br />
-                <InputField disabled={true} value={email} type='email' placeholder='Email' className='email-input' required='required' icon='fa-solid fa-envelope' cnic_field={false}></InputField> <br />
-                <PhoneComponent value={phone} handler={handlePhone} placeholder='Mobile Number' type='text' className='contact-input' required='required'  cnic_field={false}/>
-                <InputField value={city} handler={handleCity} type='text' placeholder='City' className='city-input' required='required' icon='ffa-sharp fa-solid fa-city' cnic_field={false}></InputField> <br />
-                <InputField value={address} handler={handleAddress} type='text' placeholder='Address' className='address-input' required='required' icon='fa-solid fa-location-dot' cnic_field={false}></InputField> <br />
-                <InputField value={linkedin} handler={handleLinkedin} type='text' placeholder='LinkedIn Profile' className='linkedin-input' required='required' icon='fa-brands fa-linkedin' cnic_field={false}></InputField> <br />
-                <Button type="submit" text="Save" className='save-button'/>
-                </div>
+                <InputField value={firstname} handler={handleFirstname} type='text' placeholder='First Name' className='first-name-input' required='required' icon='fa-solid fa-user' />
+                <InputField value={lastname} handler={handleLastname} type='text' placeholder='Last Name' className='last-name-input' required='required' icon='fa-regular fa-user' /><br/>
+                <DropdownField value={gender} handler={handleGender} options={['Male', 'Female']} placeholder='Gender' icon='fa-sharp fa-solid fa-person-dress'  />
+                <DropdownField value={maritalstat} handler={handleMaritalstat} options={['Single', 'Married']} placeholder='Marital Status' icon='fa-solid fa-heart'  /><br/>
+                <InputField value={nin} handler={handleNin} type='text' placeholder='CNIC/Nation ID' className='cnic-input' required='required' icon='fa-solid fa-address-card' />
+                <InputField value={dob} handler={handleDob} type='date' placeholder='' className='date-input' required='required' icon='fa-solid fa-calendar-days' /><br/>
+                <InputField disabled={true} value={email} type='email' placeholder='Email' className='email-input' required='required' icon='fa-solid fa-envelope' /><br/>
+                <PhoneComponent value={phone} handler={handlePhone} placeholder='Mobile Number' type='text' className='contact-input' required='required'  /><br/>
+                <InputField value={city} handler={handleCity} type='text' placeholder='City' className='city-input' required='required' icon='ffa-sharp fa-solid fa-city' /><br/>
+                <InputField value={address} handler={handleAddress} type='text' placeholder='Address' className='address-input' required='required' icon='fa-solid fa-location-dot' /><br/>
+                <InputField value={linkedin} handler={handleLinkedin} type='text' placeholder='LinkedIn Profile' className='linkedin-input' required='required' icon='fa-brands fa-linkedin' /><br/>
+                <Button  disabled={true} text="Next" className='next-button' />
+                <Button type="submit" text="Save" onClick={saveButtonHandler} className='save-button'/>          
             </form>
             
-                <Button onClick={goToNextPage} disabled={false} text="Next" className='next-button' />
+               
                 
                 
         </div>
+        </>
 
     )
 }

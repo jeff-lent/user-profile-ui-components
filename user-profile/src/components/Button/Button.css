@@ -1,25 +1,26 @@
 
 .save-button, .next-button {
     float: right;
-    position: relative;
-    right: 100px;
     padding: 13px;
     border-radius: 12px;
     width: 80px;
-    background-color: #638bee;
+    background-color: #2196F3;
     border: 1px solid white;
     outline: none;
     font-size: 1.1rem;
     color: white;
     cursor: pointer;
     transition: ease-out 500ms;  
+    margin-right: 7px;
 }
 .save-button:hover, .next-button:hover{
     color: black;
     background-color: white;
-    border: 1px solid #638bee;
+    border: 1px solid #2196F3;
 }
-.next-button {
-    top: 302px;
-    right: 110px;
-}
+.next-button:disabled, .next-button:disabled:hover{
+    background-color: #7cc4ff;
+    color: white;
+    cursor: not-allowed;
+    }
+    
