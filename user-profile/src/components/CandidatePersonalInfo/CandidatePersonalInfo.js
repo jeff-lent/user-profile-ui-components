@@ -40,48 +40,43 @@ function CandidatePersonalInfo() {
         //
     }, [])
 
-    const handleFirstname = useCallback(e => {
-        let newValue = e.target.validity.valid ? e.target.value : e.target.value.substr(0, e.target.value.length - 1);
-        setFirstname(newValue);
+    const handleFirstname = useCallback(val => {
+        setFirstname(val);
     }, []);
 
-    const handleLastname = useCallback(e => {
-        let newValue = e.target.validity.valid ? e.target.value : e.target.value.substr(0, e.target.value.length - 1);
-        setLastname(newValue);
+    const handleLastname = useCallback(val => {
+        setLastname(val);
     }, []);
 
-    const handleDob = useCallback(e => {
-        setDob(e.target.value);
+    const handleDob = useCallback(val => {
+        setDob(val);
     }, []);
 
-    const handleGender = useCallback(e => {
-        setGender(e.target.value);
+    const handleGender = useCallback(val => {
+        setGender(val);
     }, []);
 
-    const handleNin = useCallback(e => {
-        let newValue = e.target.validity.valid ? e.target.value : e.target.value.substr(0, e.target.value.length - 1);
-        setNin(newValue);
+    const handleNin = useCallback(val => {
+        setNin(val);
     }, []);
 
-    const handleCity = useCallback(e => {
-        let newValue = e.target.validity.valid ? e.target.value : e.target.value.substr(0, e.target.value.length - 1);
-        setCity(newValue);
+    const handleCity = useCallback(val => {
+        setCity(val);
     }, []);
 
-    const handleAddress = useCallback(e => {
-        setAddress(e.target.value);
+    const handleAddress = useCallback(val => {
+        setAddress(val);
     }, []);
 
-    const handleLinkedin = useCallback(e => {
-        setLinkedin(e.target.value);
+    const handleLinkedin = useCallback(val => {
+        setLinkedin(val);
     }, []);
 
-    const handleMaritalstat = useCallback(e => {
-        setMaritalstat(e.target.value);
+    const handleMaritalstat = useCallback(val => {
+        setMaritalstat(val);
     }, []);
 
     const handlePhone = useCallback(val => {
-        console.log(val)
         setPhone(val);
     }, []);
 
@@ -156,7 +151,7 @@ function CandidatePersonalInfo() {
                     <PhoneComponent value={phone} handler={handlePhone} placeholder='Mobile Number' type='text' className='contact-input' required='required' />
                     <InputField value={city} handler={handleCity} type='text' placeholder='City' pattern="[a-zA-Z ]*" className='city-input' required='required' icon='ffa-sharp fa-solid fa-city'></InputField> <br />
                     <InputField value={address} handler={handleAddress} type='text' placeholder='Address' className='address-input' required='required' icon='fa-solid fa-location-dot'></InputField> <br />
-                    <InputField value={linkedin} handler={handleLinkedin} type='url' placeholder='LinkedIn Profile' className='linkedin-input' required='required' icon='fa-brands fa-linkedin'></InputField> <br />
+                    <InputField value={linkedin} handler={handleLinkedin} type='text' placeholder='LinkedIn Profile' className='linkedin-input' required='required' icon='fa-brands fa-linkedin'></InputField> <br />
                     <Button disabled={disableNextBtn} text="Next" type="button" className='next-button' />
                     <Button type="submit" text="Save" className='save-button' />
                 </form>
