@@ -37,6 +37,7 @@ function CandidatePersonalInfo() {
         //         console.log(data)
         //         setUserData(null)
         //     });
+        //
     }, [])
 
     const handleFirstname = useCallback(e => {
