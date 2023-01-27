@@ -1,13 +1,12 @@
-import "./DropdownField.css"
+import styles from "../CandidatePersonalInfo/CandidatePersonalInfo.module.css"
 
-function DropdownField({options, placeholder, icon, value, handler}) {
+function DropdownField({ options, placeholder, icon, value, handler, className }) {
     return (
         <>
-       <i class={icon + " input-field-icons"}></i>
-            <select value={value} onChange={e => handler(e)} required className="select">
+            <select value={value} onChange={e => { handler(e.target.value) }} required className={`${className} ${styles.select}`}>
                 <option value="" selected disabled>{placeholder}</option>
                 {options && options.map(item => {
-                    return <option key={item} value={item} className="option">{item}</option>
+                    return <option key={item} value={item} className={styles.option}>{item}</option>
                 })}
             </select>
         </>

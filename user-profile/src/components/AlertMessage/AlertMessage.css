@@ -2,25 +2,22 @@
     padding: 10px;
     background-color: #f44336;
     color: white;
-    margin-bottom: 5px;
-    border-radius: 20px;
-    height: 15px;
+    border-radius: 12px;
     width: 500px;
-    position: absolute;
-    top: 3px;
+    margin: auto;
 }
-#danger {
+.danger {
     background-color: #f44336;
 }
-#success {
+.success {
     background-color: #04AA6D;
 }
 
-#info {
+.info {
     background-color: #2196F3;
 }
 
-#warning {
+.warning {
     background-color: #ff9800;
 }
 

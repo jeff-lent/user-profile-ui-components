@@ -4,7 +4,7 @@ import "./PhoneComponent.css"
 function PhoneComponent({ placeholder, type, className, required, value, handler }) {
 
     return (
-        <>    <i class="fa-solid fa-globe global-icon"></i>
+        <span className='myphone'>
             <PhoneInput
                 defaultCountry="PK"
                 placeholder={placeholder}
@@ -14,7 +14,7 @@ function PhoneComponent({ placeholder, type, className, required, value, handler
                 className={className + " input-fields"}
                 required={required}
             />
-        </>
+        </span>
 
     )
 }
