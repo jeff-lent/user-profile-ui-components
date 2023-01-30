@@ -28,7 +28,6 @@ function CandidateAcademicInfo() {
     const [showAlert, setShowAlert] = useState(false);
     const [alertType, setAlertType] = useState('alert');
     const [message, setMessage] = useState('');
-    const [disableSubmitBtn, setDisableSubmitBtn] = useState(true);
 
     const url = ''
     useEffect(() => {
@@ -37,7 +36,7 @@ function CandidateAcademicInfo() {
             .then((data) => {
                 console.log(data)
                 setEduData(data)
-                if(data.length !== 0){
+                if (data.length !== 0) {
                     setDisNextBtn(false)
                 }
             })
@@ -102,6 +101,7 @@ function CandidateAcademicInfo() {
     const onSubmit = (e) => {
         e.preventDefault();
         const obj = {
+            userId: 1, //setEmail(sessionStorage.getItem("user_id")),
             degree,
             title,
             institute,
@@ -122,9 +122,46 @@ function CandidateAcademicInfo() {
         setView('details')
     }
 
+    const onSave = () => {
+        console.log(eduData)
+        fetch(url, {
+            method: 'POST',
+            mode: 'cors',
+            cache: 'no-cache',
+            credentials: 'same-origin',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            redirect: 'follow',
+            referrerPolicy: 'no-referrer',
+            body: JSON.stringify(eduData)
+        })
+            .then(response => {
+                console.log(response);
+                const res = response ? response.ok : false;
+                const updateUser = res ? 'Info saved successfully!' : 'Error saving info!';
+                const alertUser = res ? 'success' : 'danger';
+                setShowAlert(true);
+                setMessage(updateUser)
+                setAlertType(alertUser)
+                setDisNextBtn(!res)
+            })
+            .catch(err => {
+                console.log(err)
+                const updateUser = 'Error saving info!';
+                const alertUser = 'danger';
+                setShowAlert(true);
+                setMessage(updateUser)
+                setAlertType(alertUser)
+                setDisNextBtn(true)
+            });
+    }
+
     if (view == 'details') {
         return (
             <div>
+                {showAlert ? <AlertMessage showAlert={showAlert} setAlert={setShowAlert} alertType={alertType} message={message} /> : ''}
+                <Heading className={styles.personalInfoHeading} text="Academic Background" />
                 <div>
                     <table className={styles.eduTable}>
                         <tr>
@@ -135,31 +172,36 @@ function CandidateAcademicInfo() {
                             <th>Completion date</th>
                             <th>CGPA/Percentage</th>
                             <th>FYP/Project/Thesis</th>
+                            <th>Action</th>
                         </tr>
                         {eduData.length === 0 ? <tr>
-                            <td style={{ textAlign: 'center' }} colSpan={7}>No data to show</td>
+                            <td style={{ textAlign: 'center' }} colSpan={8}>No data to show</td>
                         </tr> : null}
                         {
                             eduData.map(item => {
-                                console.log(item)
                                 return (
                                     <tr>
                                         {
                                             Object.keys(item).map(it => {
-                                                return <td>{item[it]}</td>
+                                                console.log(it)
+                                                if(it !== 'userId' && it !== 'id')
+                                                return <td>{item[it]}</td>;
                                             })
                                         }
+                                        <td>
+                                            <Button type='button' text='Delete' className={''} />
+                                        </td>
                                     </tr>
                                 )
                             })
                         }
                     </table>
                 </div>
-                <div style={{ display: 'flex', justifyContent: 'center'}}>
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
                     <Button onClick={onAddAnother} disabled={''} text="+ Add Another" type="button" className={styles.addMoreBtn} />
                 </div>
                 <div>
-                    <Button text="Save" type="button" className={styles.saveButton} />
+                    <Button onClick={onSave} text="Save" type="button" className={styles.saveButton} />
                     <Button disabled={disNextBtn} text="Next" type="button" className={styles.nextButton} />
                 </div>
             </div>
@@ -170,8 +212,6 @@ function CandidateAcademicInfo() {
             <>
                 <div className={styles.mainContainer}>
                     <form className={styles.formPersonalInfo} onSubmit={onSubmit}>
-
-                        {showAlert ? <AlertMessage showAlert={showAlert} setAlert={setShowAlert} alertType={alertType} message={message} /> : ''}
                         <Heading className={styles.personalInfoHeading} text="Academic Background" />
                         <div>
                             <DropdownField value={degree} handler={handleDegree} options={['Secondary School Certificate / Matriculation / O - level', 'Higher Secondary School Certificate / Intermediate/ A - level', 'Bachelor (16 Years) Degree', 'Master (16 Years) Degree']} className={styles.fullSize} placeholder='Qualification Level' />
