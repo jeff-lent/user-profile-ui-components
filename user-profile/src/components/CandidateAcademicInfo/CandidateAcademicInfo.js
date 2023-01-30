@@ -29,9 +29,11 @@ function CandidateAcademicInfo() {
     const [alertType, setAlertType] = useState('alert');
     const [message, setMessage] = useState('');
 
-    const url = ''
+    const getByUserIdUrl = ''
+    const postUrl = 'http://192.168.0.160:8080/api/educational_information'
+
     useEffect(() => {
-        fetch(url)
+        fetch(getByUserIdUrl)
             .then((response) => response.json())
             .then((data) => {
                 console.log(data)
@@ -48,7 +50,6 @@ function CandidateAcademicInfo() {
     }, [])
 
     const handleDegree = useCallback(val => {
-        console.log(val);
         setDegree(val);
     }, []);
     const handleTitle = useCallback(val => {
@@ -59,7 +60,6 @@ function CandidateAcademicInfo() {
     }, []);
     const handleDegreeProgress = useCallback(e => {
         const val = e.target.value
-        console.log(val)
         setDegreeProgress(val);
         if (val === 'yes') {
             setDisGradDate(true)
@@ -123,8 +123,7 @@ function CandidateAcademicInfo() {
     }
 
     const onSave = () => {
-        console.log(eduData)
-        fetch(url, {
+        fetch(postUrl, {
             method: 'POST',
             mode: 'cors',
             cache: 'no-cache',
@@ -172,10 +171,9 @@ function CandidateAcademicInfo() {
                             <th>Completion date</th>
                             <th>CGPA/Percentage</th>
                             <th>FYP/Project/Thesis</th>
-                            <th>Action</th>
                         </tr>
                         {eduData.length === 0 ? <tr>
-                            <td style={{ textAlign: 'center' }} colSpan={8}>No data to show</td>
+                            <td style={{ textAlign: 'center' }} colSpan={7}>No data to show</td>
                         </tr> : null}
                         {
                             eduData.map(item => {
@@ -183,14 +181,10 @@ function CandidateAcademicInfo() {
                                     <tr>
                                         {
                                             Object.keys(item).map(it => {
-                                                console.log(it)
                                                 if(it !== 'userId' && it !== 'id')
                                                 return <td>{item[it]}</td>;
                                             })
                                         }
-                                        <td>
-                                            <Button type='button' text='Delete' className={''} />
-                                        </td>
                                     </tr>
                                 )
                             })
