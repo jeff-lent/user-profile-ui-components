@@ -17,6 +17,7 @@ function CandidateAcademicInfo() {
     const [graduationDate, setGraduationDate] = useState('');
     const [percentage, setPercentage] = useState('');
     const [fypThesis, setFypThesis] = useState('')
+    const [userId, setUserId] = useState(91);
 
     const [eduData, setEduData] = useState([]);
 
@@ -29,11 +30,15 @@ function CandidateAcademicInfo() {
     const [alertType, setAlertType] = useState('alert');
     const [message, setMessage] = useState('');
 
-    const getByUserIdUrl = ''
+    const getByUserIdUrl = 'http://192.168.0.160:8080/api/educational_information/user'
     const postUrl = 'http://192.168.0.160:8080/api/educational_information'
 
     useEffect(() => {
-        fetch(getByUserIdUrl)
+        fetchData()
+    }, [])
+
+    const fetchData = () => {
+        fetch(`${getByUserIdUrl}/${userId}`)
             .then((response) => response.json())
             .then((data) => {
                 console.log(data)
@@ -47,7 +52,7 @@ function CandidateAcademicInfo() {
                 setEduData([]);
                 setDisNextBtn(true)
             });
-    }, [])
+    }
 
     const handleDegree = useCallback(val => {
         setDegree(val);
@@ -98,31 +103,45 @@ function CandidateAcademicInfo() {
     }, []);
 
 
+    // const onSubmit = (e) => {
+    //     e.preventDefault();
+    //     const obj = {
+    //         userId, //setEmail(sessionStorage.getItem("user_id")),
+    //         currentDegree: degree,
+    //         title,
+    //         institute,
+    //         degreeProgress,
+    //         graduationDate,
+    //         cgpa: percentage,
+    //         finalYearProject: fypThesis
+    //     }
+    //     setDegree('')
+    //     setTitle('')
+    //     setInstitute('')
+    //     setDegreeProgress('')
+    //     setGraduationDate('')
+    //     setPercentage('')
+    //     setFypThesis('')
+    //     setDisGradDate(false)
+    //     setEduData([...eduData, obj])
+    //     setView('details')
+    // }
+
     const onSubmit = (e) => {
+        fetchData()
         e.preventDefault();
         const obj = {
-            userId: 1, //setEmail(sessionStorage.getItem("user_id")),
-            degree,
+            userId, //setEmail(sessionStorage.getItem("user_id")),
+            currentDegree: degree,
             title,
             institute,
             degreeProgress,
             graduationDate,
-            percentage,
-            fypThesis
+            cgpa: percentage,
+            finalYearProject: fypThesis
         }
-        setDegree('')
-        setTitle('')
-        setInstitute('')
-        setDegreeProgress('')
-        setGraduationDate('')
-        setPercentage('')
-        setFypThesis('')
-        setDisGradDate(false)
-        setEduData([...eduData, obj])
-        setView('details')
-    }
-
-    const onSave = () => {
+      
+        console.log(obj)
         fetch(postUrl, {
             method: 'POST',
             mode: 'cors',
@@ -133,9 +152,10 @@ function CandidateAcademicInfo() {
             },
             redirect: 'follow',
             referrerPolicy: 'no-referrer',
-            body: JSON.stringify(eduData)
+            body: JSON.stringify(obj)
         })
-            .then(response => {
+            .then(async response => {
+                const data = await response.json();
                 console.log(response);
                 const res = response ? response.ok : false;
                 const updateUser = res ? 'Info saved successfully!' : 'Error saving info!';
@@ -144,6 +164,7 @@ function CandidateAcademicInfo() {
                 setMessage(updateUser)
                 setAlertType(alertUser)
                 setDisNextBtn(!res)
+                setEduData([...eduData, data])
             })
             .catch(err => {
                 console.log(err)
@@ -154,6 +175,16 @@ function CandidateAcademicInfo() {
                 setAlertType(alertUser)
                 setDisNextBtn(true)
             });
+        setDegree('')
+        setTitle('')
+        setInstitute('')
+        setDegreeProgress('')
+        setGraduationDate('')
+        setPercentage('')
+        setFypThesis('')
+        setDisGradDate(false)
+        setView('details')
+        // fetchData();
     }
 
     if (view == 'details') {
@@ -162,7 +193,7 @@ function CandidateAcademicInfo() {
                 {showAlert ? <AlertMessage showAlert={showAlert} setAlert={setShowAlert} alertType={alertType} message={message} /> : ''}
                 <Heading className={styles.personalInfoHeading} text="Academic Background" />
                 <div>
-                    <table className={styles.eduTable}>
+                    <table className={styles.eduTable} >
                         <tr>
                             <th>Qualification</th>
                             <th>Title</th>
@@ -178,11 +209,11 @@ function CandidateAcademicInfo() {
                         {
                             eduData.map(item => {
                                 return (
-                                    <tr>
+                                    <tr key={item.id}>
                                         {
                                             Object.keys(item).map(it => {
-                                                if(it !== 'userId' && it !== 'id')
-                                                return <td>{item[it]}</td>;
+                                                if (it !== 'userId' && it !== 'id')
+                                                    return <td>{item[it]}</td>;
                                             })
                                         }
                                     </tr>
@@ -195,7 +226,7 @@ function CandidateAcademicInfo() {
                     <Button onClick={onAddAnother} disabled={''} text="+ Add Another" type="button" className={styles.addMoreBtn} />
                 </div>
                 <div>
-                    <Button onClick={onSave} text="Save" type="button" className={styles.saveButton} />
+                    {/* <Button onClick={onSave} text="Save" type="button" className={styles.saveButton} /> */}
                     <Button disabled={disNextBtn} text="Next" type="button" className={styles.nextButton} />
                 </div>
             </div>
@@ -251,7 +282,7 @@ function CandidateAcademicInfo() {
                             </div>
                             <div>
                                 <span className={styles.degreeProgressText}>Completion date: </span>
-                                <InputField disabled={disGradDate} value={graduationDate} handler={handleGraduationDate} min="" type='date' placeholder='' className={styles.graduationDate} required='required' />
+                                <InputField disabled={disGradDate} value={graduationDate} handler={handleGraduationDate} type='date' placeholder='' className={styles.graduationDate} required='required' />
                             </div>
 
                         </div>
