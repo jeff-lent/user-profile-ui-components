@@ -2,6 +2,7 @@
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 .formPersonalInfo {
@@ -96,10 +97,11 @@ width: 94%;
 .saveButton,
 .nextButton {
   /* float: right; */
+  /* white-space: nowrap; */
   margin: 10px;
   padding: 13px;
   border-radius: 12px;
-  width: 80px;
+  /* width: 80px; */
   background-color: #2196F3;
   border: 1px solid white;
   outline: none;
@@ -109,24 +111,7 @@ width: 94%;
   transition: ease-out 500ms;
   margin-right: 7px;
 }
-.academicTable {
-  border: 2px solid forestgreen;
-  width: 100%;
-  height: 20%;
-}
-.academicTable th {
-  border-bottom: 1px solid rebeccapurple;
-  padding: 10px;
-  text-transform: capitalize;
-  background: #6270B1;
-  color: white;
-}
-.academicTable tr td {
-  text-align: center;
-  background-color: #F0F0F0;
-  padding: 5px;
-  border-bottom: 1px solid black;
-}
+
 .saveButton:hover,
 .nextButton:hover {
   color: black;
@@ -197,6 +182,7 @@ width: 94%;
   background-color: #f0f0f0;
   border: 1px solid #2196F3;
   font-size: 1.2rem;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 .textArea:focus {
@@ -215,9 +201,8 @@ width: 94%;
 .eduTable {
   font-family: arial, sans-serif;
   border-collapse: collapse;
-  border: 2px solid forestgreen;
-  width: 80%;
-  margin: 10px;
+  border: 2px solid rgb(95, 95, 95);
+  width: 100%;
   box-sizing: border-box;
 }
 
@@ -234,4 +219,8 @@ width: 94%;
   background-color: #F0F0F0;
   padding: 8px;
   border: 1px solid black;
+}
+
+.tableContainer {
+  margin: 10px;
 }

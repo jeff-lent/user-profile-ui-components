@@ -7,7 +7,17 @@ import Heading from "../Heading/Heading";
 import styles from '../CandidateAcademicInfo/CandidateAcademicInfo.module.css'
 import { AlertMessage } from "../AlertMessage/AlertMessage";
 import TextArea from "../Textarea/TextArea";
+// import swal from 'sweetalert';
 // import AddCircleIcon from '@material-ui/icons/AddCircle';
+
+const qualificationOptions = [
+    'SSC / O-level',
+    'HSC / A-level',
+    'Bachelors',
+    'Masters',
+    'PhD',
+    'Post Doctorate'
+]
 
 function CandidateAcademicInfo() {
     const [degree, setDegree] = useState('');
@@ -17,7 +27,8 @@ function CandidateAcademicInfo() {
     const [graduationDate, setGraduationDate] = useState('');
     const [percentage, setPercentage] = useState('');
     const [fypThesis, setFypThesis] = useState('')
-    const [userId, setUserId] = useState(91);
+    const [userId, setUserId] = useState(2);
+    //setUserId(sessionStorage.getItem("user_id")),
 
     const [eduData, setEduData] = useState([]);
 
@@ -66,18 +77,18 @@ function CandidateAcademicInfo() {
     const handleDegreeProgress = useCallback(e => {
         const val = e.target.value
         setDegreeProgress(val);
-        if (val === 'yes') {
+        if (val === 'Yes') {
             setDisGradDate(true)
             setGraduationDate('')
         }
-        else if (val === 'no') {
+        else if (val === 'No') {
             setDisGradDate(false)
         }
 
     }, []);
     const handleGraduationDate = useCallback(val => {
         setGraduationDate(val);
-        setDegreeProgress('no');
+        setDegreeProgress('No');
     }, []);
     const handlePercentage = useCallback(val => {
         setPercentage(val);
@@ -102,36 +113,10 @@ function CandidateAcademicInfo() {
         setView('details')
     }, []);
 
-
-    // const onSubmit = (e) => {
-    //     e.preventDefault();
-    //     const obj = {
-    //         userId, //setEmail(sessionStorage.getItem("user_id")),
-    //         currentDegree: degree,
-    //         title,
-    //         institute,
-    //         degreeProgress,
-    //         graduationDate,
-    //         cgpa: percentage,
-    //         finalYearProject: fypThesis
-    //     }
-    //     setDegree('')
-    //     setTitle('')
-    //     setInstitute('')
-    //     setDegreeProgress('')
-    //     setGraduationDate('')
-    //     setPercentage('')
-    //     setFypThesis('')
-    //     setDisGradDate(false)
-    //     setEduData([...eduData, obj])
-    //     setView('details')
-    // }
-
     const onSubmit = (e) => {
-        fetchData()
         e.preventDefault();
         const obj = {
-            userId, //setEmail(sessionStorage.getItem("user_id")),
+            userId,
             currentDegree: degree,
             title,
             institute,
@@ -140,7 +125,7 @@ function CandidateAcademicInfo() {
             cgpa: percentage,
             finalYearProject: fypThesis
         }
-      
+
         console.log(obj)
         fetch(postUrl, {
             method: 'POST',
@@ -164,6 +149,10 @@ function CandidateAcademicInfo() {
                 setMessage(updateUser)
                 setAlertType(alertUser)
                 setDisNextBtn(!res)
+                // swal({
+                //     title: "Personal Information Saved!",
+                //     icon: "success",
+                // })
                 setEduData([...eduData, data])
             })
             .catch(err => {
@@ -184,24 +173,23 @@ function CandidateAcademicInfo() {
         setFypThesis('')
         setDisGradDate(false)
         setView('details')
-        // fetchData();
     }
 
     if (view == 'details') {
         return (
-            <div>
+            <div className={styles.mainContainer} style={{display: 'block'}}>
                 {showAlert ? <AlertMessage showAlert={showAlert} setAlert={setShowAlert} alertType={alertType} message={message} /> : ''}
                 <Heading className={styles.personalInfoHeading} text="Academic Background" />
-                <div>
+                <div className={styles.tableContainer}>
                     <table className={styles.eduTable} >
                         <tr>
                             <th>Qualification</th>
                             <th>Title</th>
-                            <th>School/University/College</th>
+                            <th>School / University / College</th>
                             <th>In progress</th>
                             <th>Completion date</th>
-                            <th>CGPA/Percentage</th>
-                            <th>FYP/Project/Thesis</th>
+                            <th>CGPA / Percentage</th>
+                            <th>FYP / Project / Thesis</th>
                         </tr>
                         {eduData.length === 0 ? <tr>
                             <td style={{ textAlign: 'center' }} colSpan={7}>No data to show</td>
@@ -213,7 +201,10 @@ function CandidateAcademicInfo() {
                                         {
                                             Object.keys(item).map(it => {
                                                 if (it !== 'userId' && it !== 'id')
-                                                    return <td>{item[it]}</td>;
+                                                    if (!item[it])
+                                                        return <td>---</td>;
+                                                    else
+                                                        return <td>{item[it]}</td>;
                                             })
                                         }
                                     </tr>
@@ -222,8 +213,11 @@ function CandidateAcademicInfo() {
                         }
                     </table>
                 </div>
-                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                {/* <div style={{ display: 'flex', justifyContent: 'center' }}>
                     <Button onClick={onAddAnother} disabled={''} text="+ Add Another" type="button" className={styles.addMoreBtn} />
+                </div> */}
+                <div>
+                    <Button onClick={onAddAnother} text="+Add New" type="button" className={styles.saveButton} />
                 </div>
                 <div>
                     {/* <Button onClick={onSave} text="Save" type="button" className={styles.saveButton} /> */}
@@ -239,21 +233,21 @@ function CandidateAcademicInfo() {
                     <form className={styles.formPersonalInfo} onSubmit={onSubmit}>
                         <Heading className={styles.personalInfoHeading} text="Academic Background" />
                         <div>
-                            <DropdownField value={degree} handler={handleDegree} options={['Secondary School Certificate / Matriculation / O - level', 'Higher Secondary School Certificate / Intermediate/ A - level', 'Bachelor (16 Years) Degree', 'Master (16 Years) Degree']} className={styles.fullSize} placeholder='Qualification Level' />
+                            <DropdownField value={degree} handler={handleDegree} options={qualificationOptions} className={styles.fullSize} placeholder='Qualification' />
                         </div>
                         <div>
                             <InputField value={title} handler={handleTitle} type='text' placeholder='Title' pattern="[a-zA-Z ]*" className={styles.fullSize} required='required' />
                         </div>
 
                         <div>
-                            <InputField value={institute} handler={handleInstitute} type='text' placeholder='University/College' pattern="[a-zA-Z ]*" className={styles.fullSize} required='required' />
+                            <InputField value={institute} handler={handleInstitute} type='text' placeholder='School/University/College' pattern="[a-zA-Z ]*" className={styles.fullSize} required='required' />
                         </div>
                         <div className={styles.degreeProgressDiv}>
                             <div>
                                 <span className={styles.degreeProgressText}>Degree in progress:</span>
                                 <input
-                                    checked={degreeProgress === 'yes'}
-                                    value={'yes'}
+                                    checked={degreeProgress === 'Yes'}
+                                    value={'Yes'}
                                     onChange={handleDegreeProgress}
                                     type={'radio'}
                                     className={`${styles.radioBtn} ${styles.inputFields}`}
@@ -261,24 +255,14 @@ function CandidateAcademicInfo() {
                                 />
                                 <span>Yes</span>
                                 <input
-                                    checked={degreeProgress === 'no'}
-                                    value={'no'}
+                                    checked={degreeProgress === 'No'}
+                                    value={'No'}
                                     onChange={handleDegreeProgress}
                                     type={'radio'}
                                     className={`${styles.radioBtn} ${styles.inputFields}`}
                                     required={true}
                                 />
                                 <span>No</span>
-                                {/* <InputField 
-                                value={'yes'}
-                                checked={degreeProgress === 'yes'}
-                                handler={handleDegreeProgress} 
-                                id='degree-in-progress' 
-                                type='radio' 
-                                placeholder='' 
-                                className={styles.radioBtn} 
-                                required='required' 
-                            /> */}
                             </div>
                             <div>
                                 <span className={styles.degreeProgressText}>Completion date: </span>
