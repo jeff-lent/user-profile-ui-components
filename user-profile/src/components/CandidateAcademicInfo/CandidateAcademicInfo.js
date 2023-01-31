@@ -11,12 +11,13 @@ import TextArea from "../Textarea/TextArea";
 // import AddCircleIcon from '@material-ui/icons/AddCircle';
 
 const qualificationOptions = [
-    'SSC / O-level',
-    'HSC / A-level',
+    'SSC',
+    'O-level',
+    'HSC',
+    'A-level',
     'Bachelors',
     'Masters',
-    'PhD',
-    'Post Doctorate'
+    'PhD'
 ]
 
 function CandidateAcademicInfo() {
@@ -217,7 +218,7 @@ function CandidateAcademicInfo() {
                     <Button onClick={onAddAnother} disabled={''} text="+ Add Another" type="button" className={styles.addMoreBtn} />
                 </div> */}
                 <div>
-                    <Button onClick={onAddAnother} text="+Add New" type="button" className={styles.saveButton} />
+                    <Button onClick={onAddAnother} text="+ Add New" type="button" className={styles.saveButton} />
                 </div>
                 <div>
                     {/* <Button onClick={onSave} text="Save" type="button" className={styles.saveButton} /> */}
@@ -236,7 +237,7 @@ function CandidateAcademicInfo() {
                             <DropdownField value={degree} handler={handleDegree} options={qualificationOptions} className={styles.fullSize} placeholder='Qualification' />
                         </div>
                         <div>
-                            <InputField value={title} handler={handleTitle} type='text' placeholder='Title' pattern="[a-zA-Z ]*" className={styles.fullSize} required='required' />
+                            <InputField value={title} handler={handleTitle} type='text' placeholder='Title (example Pre-Med, BSCS etc.)' pattern="[a-zA-Z ]*" className={styles.fullSize} required='required' />
                         </div>
 
                         <div>
