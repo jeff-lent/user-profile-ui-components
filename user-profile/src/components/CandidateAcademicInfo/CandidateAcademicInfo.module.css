@@ -37,7 +37,16 @@
   background-color: #f0f0f0;
   outline: none;
   border: 1px solid #6270b1;
+  width: 100%;
 }
+.inputLabel {
+  margin-left: 10px;
+  font-size: 1.1rem;
+  border-radius: 10px;
+  padding: 12px;
+  font-weight: 500;
+ }
+
 
 .inputFields:focus,
 .select:focus {
@@ -45,7 +54,7 @@
   box-shadow: 0 0 10px #2196F3;
 }
 
-.fullSize {
+/* .fullSize {
   width: 90%;
   margin: 10px;
 }
@@ -53,7 +62,9 @@
 .halfSize {
   width: 44.5%;
   margin: 10px 0 10px 10px;
-}
+} */
+
+
 
 .inputFields:hover,
 .PhoneInputCountrySelect:hover {

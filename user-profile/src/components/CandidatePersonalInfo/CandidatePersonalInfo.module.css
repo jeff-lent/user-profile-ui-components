@@ -24,8 +24,7 @@
   left: 25px;
 }
 
-.inputFields,
-.select {
+.inputFields, .select {
   -ms-box-sizing: border-box;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
@@ -33,10 +32,14 @@
   padding: 10px 10px 10px 30px;
   font-size: 1.2rem;
   border-radius: 6px;
-  background-color: #f0f0f0;
+  background-color: #F0F0F0;
   outline: none;
-  border: 1px solid #6270b1;
+  border: 1px solid #6270B1;
+  width: 100%;
+  margin: 5px;
+
 }
+
 
 .inputFields:focus,
 .select:focus {
@@ -44,7 +47,7 @@
   box-shadow: 0 0 10px #2196F3;
 }
 
-.fullSize {
+/* .fullSize {
   width: 90%;
   margin: 10px;
 }
@@ -52,7 +55,7 @@
 .halfSize {
   width: 44.5%;
   margin: 10px 0 10px 10px;
-}
+} */
 
 .inputFields:hover,
 .PhoneInputCountrySelect:hover {
