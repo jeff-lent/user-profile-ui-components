@@ -175,12 +175,13 @@ width: 94%;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 90%;
+  /* width: 90%; */
+  width: 100%;
   margin: 10px;
 }
 
 .graduationDate {
-  width: 300px;
+  /* width: 300px; */
 }
 
 /* TextArea css */
@@ -189,7 +190,8 @@ width: 94%;
   border-radius: 10px;
   overflow: auto;
   margin: 10px;
-  width: 86.5%;
+  /* width: 86.5%; */
+  width: 95%;
   background-color: #f0f0f0;
   border: 1px solid #2196F3;
   font-size: 1.2rem;
@@ -208,6 +210,9 @@ width: 94%;
 }
 
 /* table css */
+.formTable {
+  width: 100%;
+}
 
 .eduTable {
   font-family: arial, sans-serif;

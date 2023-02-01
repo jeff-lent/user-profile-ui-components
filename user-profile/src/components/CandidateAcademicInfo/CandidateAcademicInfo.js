@@ -8,6 +8,7 @@ import TextArea from "../Textarea/TextArea";
 import { message, Popconfirm } from 'antd';
 // import swal from 'sweetalert';
 // import AddCircleIcon from '@material-ui/icons/AddCircle';
+import InputLabel from '../Label/InputLabel';
 
 const qualificationOptions = [
     'SSC',
@@ -316,7 +317,7 @@ function CandidateAcademicInfo() {
         setShowEdit(false)
     }
 
-    if (view == 'details') {
+    if (view === 'details') {
         return (
             <>
                 {contextHolder}
@@ -386,24 +387,62 @@ function CandidateAcademicInfo() {
             </>
         )
     }
-    else if (view == 'add field') {
+    else if (view === 'add field') {
         return (
             <>
                 <div className={styles.mainContainer}>
                     <form className={styles.formPersonalInfo} onSubmit={onSubmit}>
                         <Heading className={styles.personalInfoHeading} text="Academic Background" />
-                        <div>
-                            <DropdownField value={degree} handler={handleDegree} options={qualificationOptions} className={styles.fullSize} placeholder='Qualification' />
-                        </div>
-                        <div>
-                            <InputField value={title} handler={handleTitle} type='text' placeholder='Title (example Pre-Med, BSCS etc.)' pattern="[a-zA-Z ]*" className={styles.fullSize} required='required' />
-                        </div>
 
-                        <div>
-                            <InputField value={institute} handler={handleInstitute} type='text' placeholder='School/University/College' pattern="[a-zA-Z ]*" className={styles.fullSize} required='required' />
-                        </div>
-                        <div className={styles.degreeProgressDiv}>
-                            <div>
+                        <table className={styles.formTable}>
+                            <tr>
+                                <td><InputLabel className={styles.inputLabel} text='Qualification'></InputLabel></td>
+                                <td><DropdownField value={degree} handler={handleDegree} options={qualificationOptions} className={styles.fullSize} placeholder='Qualification' /></td>
+                                <td style={{textAlign: 'right'}} ><InputLabel className={styles.inputLabel} text='Title'></InputLabel></td>
+                                <td><InputField value={title} handler={handleTitle} type='text' placeholder='Title (example Pre-Med, BSCS etc.)' pattern="[a-zA-Z ]*" className={styles.fullSize} required='required' /></td>
+                            </tr>
+                            <tr>
+                                <td><InputLabel className={styles.inputLabel} text='Institute'></InputLabel></td>
+                                <td colSpan='3'><InputField value={institute} handler={handleInstitute} type='text' placeholder='School/University/College' pattern="[a-zA-Z ]*" className={styles.fullSize} required='required' /></td>
+                            </tr>
+                            <tr>
+                                <td><InputLabel className={styles.inputLabel} text='Degree in Progress'></InputLabel></td>
+                                <td>       
+                                    {/* <span className={styles.degreeProgressText}>Degree in progress:</span> */}
+                                    <input
+                                        checked={degreeProgress === 'Yes'}
+                                        value={'Yes'}
+                                        onChange={handleDegreeProgress}
+                                        type={'radio'}
+                                        className={`${styles.radioBtn} ${styles.inputFields}`}
+                                        required={true}
+                                    />
+                                    <span>Yes</span>
+                                    <input
+                                        checked={degreeProgress === 'No'}
+                                        value={'No'}
+                                        onChange={handleDegreeProgress}
+                                        type={'radio'}
+                                        className={`${styles.radioBtn} ${styles.inputFields}`}
+                                        required={true}
+                                    />
+                                    <span>No</span></td>
+
+                            </tr>
+                            <tr>
+                                <td><InputLabel className={styles.inputLabel} text='Completion date'></InputLabel></td>
+                                <td><InputField disabled={disGradDate} value={graduationDate} handler={handleGraduationDate} type='date' placeholder='' className={styles.graduationDate} required='required' /></td>
+                                <td style={{textAlign: 'right'}} ><InputLabel className={styles.inputLabel} text='CGPA/Percentage'></InputLabel></td>
+                                <td><InputField value={percentage} handler={handlePercentage} type='text' pattern="[0-9.%]*" placeholder='CGPA/Percentage' className={styles.fullSize} required='required' /></td>
+                            </tr>
+                            <tr>
+                                <td><InputLabel className={styles.inputLabel} text='Final Year Project'></InputLabel></td>
+                                <td colSpan='3'><TextArea value={fypThesis} handler={handleFypthesis} rows="5" placeholder="Final Year Project or Thesis (If applicable)" className={styles.textArea} /></td>
+                            </tr>
+
+                        </table>
+                        {/* <div className={styles.degreeProgressDiv}> */}
+                            {/* <div>
                                 <span className={styles.degreeProgressText}>Degree in progress:</span>
                                 <input
                                     checked={degreeProgress === 'Yes'}
@@ -423,27 +462,19 @@ function CandidateAcademicInfo() {
                                     required={true}
                                 />
                                 <span>No</span>
-                            </div>
-                            <div>
+                            </div> */}
+                            {/* <div>
                                 <span className={styles.degreeProgressText}>Completion date: </span>
                                 <InputField disabled={disGradDate} value={graduationDate} handler={handleGraduationDate} type='date' placeholder='' className={styles.graduationDate} required='required' />
-                            </div>
+                            </div> */}
 
-                        </div>
-                        <div>
-                            <InputField value={percentage} handler={handlePercentage} type='text' pattern="[0-9.%]*" placeholder='CGPA/Percentage' className={styles.fullSize} required='required' />
-                        </div>
-                        <div>
-                            <TextArea value={fypThesis} handler={handleFypthesis} rows="5" placeholder="Final Year Project or Thesis (If applicable)" className={styles.textArea} />
-                        </div>
-                        <div>
+                      
                             {
                                 showEdit ?
                                     <Button onClick={editField} type="button" text="Edit" className={styles.saveButton} /> :
                                     <Button type="submit" text="Add" className={styles.saveButton} />
                             }
                             <Button onClick={onCancel} disabled={''} text="Cancel" type="button" className={styles.saveButton} />
-                        </div>
                     </form>
                 </div>
             </>
