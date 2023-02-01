@@ -186,7 +186,7 @@ function CandidateAcademicInfo() {
     }
 
     const deleteField = () => {
-        fetch(`${deleteUrl}g/${deleteId}`, {
+        fetch(`${deleteUrl}/${deleteId}`, {
             method: 'DELETE',
             mode: 'cors',
             cache: 'no-cache',
