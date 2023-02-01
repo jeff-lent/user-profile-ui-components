@@ -1,12 +1,11 @@
 import { useState, useCallback, useEffect } from "react";
 import DropdownField from "../DropdownField/DropdownField";
 import InputField from "../InputField/InputField"
-import PhoneComponent from "../PhoneComponent/PhoneComponent";
 import Button from "../Button/Button";
 import Heading from "../Heading/Heading";
 import styles from '../CandidateAcademicInfo/CandidateAcademicInfo.module.css'
-import { AlertMessage } from "../AlertMessage/AlertMessage";
 import TextArea from "../Textarea/TextArea";
+import { message, Popconfirm } from 'antd';
 // import swal from 'sweetalert';
 // import AddCircleIcon from '@material-ui/icons/AddCircle';
 
@@ -38,10 +37,7 @@ function CandidateAcademicInfo() {
     const [disGradDate, setDisGradDate] = useState(false);
     const [disNextBtn, setDisNextBtn] = useState(true);
 
-    const [showAlert, setShowAlert] = useState(false);
-    const [alertType, setAlertType] = useState('alert');
-    const [message, setMessage] = useState('');
-    const [showDelete, setShowDelete] = useState(false);
+    const [messageApi, contextHolder] = message.useMessage();
     const [showEdit, setShowEdit] = useState(false);
     const [deleteId, setDeleteId] = useState(null);
     const [editId, setEditId] = useState(null)
@@ -107,7 +103,6 @@ function CandidateAcademicInfo() {
 
     const onAddAnother = useCallback(() => {
         setView('add field')
-        setShowDelete(false)
         setDeleteId(null)
     }, []);
 
@@ -156,11 +151,13 @@ function CandidateAcademicInfo() {
                 console.log(response);
                 const res = response ? response.ok : false;
                 const updateUser = res ? 'Info saved successfully!' : 'Error saving info!';
-                const alertUser = res ? 'success' : 'danger';
-                setShowAlert(true);
-                setMessage(updateUser)
-                setAlertType(alertUser)
                 setDisNextBtn(!res)
+                if (res) {
+                    messageApi.success(updateUser);
+                }
+                else {
+                    messageApi.error(updateUser)
+                }
                 // swal({
                 //     title: "Personal Information Saved!",
                 //     icon: "success",
@@ -170,10 +167,7 @@ function CandidateAcademicInfo() {
             .catch(err => {
                 console.log(err)
                 const updateUser = 'Error saving info!';
-                const alertUser = 'danger';
-                setShowAlert(true);
-                setMessage(updateUser)
-                setAlertType(alertUser)
+                messageApi.error(updateUser);
                 setDisNextBtn(true)
             });
         setDegree('')
@@ -188,28 +182,49 @@ function CandidateAcademicInfo() {
     }
 
     const onDelete = (id) => {
-        setShowDelete(true);
         setDeleteId(id);
     }
 
     const deleteField = () => {
         fetch(`${deleteUrl}/${deleteId}`, {
             method: 'DELETE',
+            mode: 'cors',
+            cache: 'no-cache',
+            credentials: 'same-origin',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            redirect: 'follow',
+            referrerPolicy: 'no-referrer',
         })
-            .then(res => console.log(res))
-        const newData = eduData.filter((item) => item.id !== deleteId);
-        setEduData(newData)
-        setShowDelete(false);
-        setDeleteId(null);
+            .then(response => {
+                const res = response ? response.ok : false;
+                console.log(response)
+                if (res) {
+                    messageApi.success('Details deleted successfully!')
+                    const newData = eduData.filter((item) => item.id !== deleteId);
+                    setEduData(newData)
+                }
+                else {
+                    messageApi.error('Error deleting details!')
+                }
+
+
+                setDeleteId(null);
+
+            })
+            .catch((err) => {
+                messageApi.error('Error deleting details!')
+                console.log(err)
+                setDeleteId(null);
+            })
     }
 
     const dontDeleteField = () => {
-        setShowDelete(false);
         setDeleteId(null);
     }
 
     const onEdit = (obj) => {
-        setShowDelete(false)
         setDeleteId(null)
 
         setView('add field')
@@ -220,7 +235,7 @@ function CandidateAcademicInfo() {
         setTitle(obj.title)
         setInstitute(obj.institute)
         setDegreeProgress(obj.degreeProgress)
-        if(obj.degreeProgress === "No"){
+        if (obj.degreeProgress === "No") {
             setGraduationDate(obj.graduationDate)
         }
         else {
@@ -243,7 +258,7 @@ function CandidateAcademicInfo() {
             cgpa: percentage,
             finalYearProject: fypThesis
         }
-        fetch(`${postUrl}/${editId}`, {
+        fetch(`${putUrl}/${editId}`, {
             method: 'PUT',
             mode: 'cors',
             cache: 'no-cache',
@@ -260,10 +275,20 @@ function CandidateAcademicInfo() {
                 console.log(response);
                 const res = response ? response.ok : false;
                 const updateUser = res ? 'Info edited successfully!' : 'Error editing info!';
-                const alertUser = res ? 'success' : 'danger';
-                setShowAlert(true);
-                setMessage(updateUser)
-                setAlertType(alertUser)
+                if (res) {
+                    messageApi.success(updateUser);
+                    const newData = eduData.map((item) => {
+                        if (item.id === editId) {
+                            return data
+                        }
+                        else
+                            return item;
+                    })
+                    setEduData(newData)
+                }
+                else {
+                    messageApi.error(updateUser)
+                }
                 setDisNextBtn(!res)
                 // swal({
                 //     title: "Personal Information Saved!",
@@ -273,21 +298,10 @@ function CandidateAcademicInfo() {
             .catch(err => {
                 console.log(err)
                 const updateUser = 'Error editing info!';
-                const alertUser = 'danger';
-                setShowAlert(true);
-                setMessage(updateUser)
-                setAlertType(alertUser)
+                messageApi.error(updateUser)
                 setDisNextBtn(true)
             });
 
-        const newData = eduData.map((item) => {
-            if(item.id === editId){
-                return obj
-            }
-            else
-            return item;
-        })
-        setEduData(newData)
         setDegree('')
         setTitle('')
         setInstitute('')
@@ -304,62 +318,72 @@ function CandidateAcademicInfo() {
 
     if (view == 'details') {
         return (
-            <div className={styles.mainContainer} style={{ display: 'block' }}>
-                {showAlert ? <AlertMessage showAlert={showAlert} setAlert={setShowAlert} alertType={alertType} message={message} /> : ''}
-                <Heading className={styles.personalInfoHeading} text="Academic Background" />
-                <div className={styles.tableContainer}>
-                    <table className={styles.eduTable} >
-                        <tr>
-                            <th>Qualification</th>
-                            <th>Title</th>
-                            <th>School / University / College</th>
-                            <th>In progress</th>
-                            <th>Completion date</th>
-                            <th>CGPA / Percentage</th>
-                            <th>FYP / Project / Thesis</th>
-                            <th>Action</th>
-                        </tr>
-                        {eduData.length === 0 ? <tr>
-                            <td style={{ textAlign: 'center' }} colSpan={8}>No data to show</td>
-                        </tr> : null}
-                        {
-                            eduData.map(item => {
-                                return (
-                                    <tr key={item.id} style={item.id === deleteId ? {color: '#fa928e'} : {}}>
-                                        {
-                                            Object.keys(item).map(it => {
-                                                if (it !== 'userId' && it !== 'id')
-                                                    if (!item[it])
-                                                        return <td>---</td>;
-                                                    else
-                                                        return <td>{item[it]}</td>;
-                                            })
-                                        }
-                                        <td>
-                                            <Button onClick={() => onDelete(item.id)} type="button" text={<i class="fa fa-trash"></i>} />
-                                            <Button onClick={() => onEdit(item)} type="button" text={<i class="fas fa-edit"></i>} />
-                                        </td>
-                                    </tr>
-                                )
-                            })
-                        }
-                    </table>
-                </div>
-                <div style={{display: 'flex', justifyContent: 'center'}}>
-                    {showDelete && <div style={{backgroundColor: '#fa928e', border: '2px solid red', padding: '10px', borderRadius: '10px'}} >
+            <>
+                {contextHolder}
+                <div className={styles.mainContainer} style={{ display: 'block' }}>
+                    <Heading className={styles.personalInfoHeading} text="Academic Background" />
+                    <div className={styles.tableContainer}>
+                        <table className={styles.eduTable} >
+                            <tr>
+                                <th>Qualification</th>
+                                <th>Title</th>
+                                <th>School / University / College</th>
+                                <th>In progress</th>
+                                <th>Completion date</th>
+                                <th>CGPA / Percentage</th>
+                                <th>FYP / Project / Thesis</th>
+                                <th>Action</th>
+                            </tr>
+                            {eduData.length === 0 ? <tr>
+                                <td style={{ textAlign: 'center' }} colSpan={8}>No data to show</td>
+                            </tr> : null}
+                            {
+                                eduData.map(item => {
+                                    return (
+                                        <tr key={item.id}>
+                                            {
+                                                Object.keys(item).map(it => {
+                                                    if (it !== 'userId' && it !== 'id')
+                                                        if (!item[it])
+                                                            return <td>---</td>;
+                                                        else
+                                                            return <td>{item[it]}</td>;
+                                                })
+                                            }
+                                            <td><Popconfirm
+                                                title="Delete details"
+                                                description="Are you sure to delete this details?"
+                                                onConfirm={deleteField}
+                                                onCancel={dontDeleteField}
+                                                okText="Yes"
+                                                cancelText="No"
+                                            >
+                                                <Button onClick={() => onDelete(item.id)} type="button" text={<i class="fa fa-trash"></i>} />
+                                            </Popconfirm>
+                                                <Button onClick={() => onEdit(item)} type="button" text={<i class="fas fa-edit"></i>} />
+                                            </td>
+                                        </tr>
+                                    )
+                                })
+                            }
+                        </table>
+                    </div>
+                    {/* <div style={{ display: 'flex', justifyContent: 'center' }}>
+                    {showDelete && <div style={{ backgroundColor: '#fa928e', border: '2px solid red', padding: '10px', borderRadius: '10px' }} >
                         Are you sure you want to delete this?
                         <Button text="Yes" onClick={deleteField} />
                         <Button text="No" onClick={dontDeleteField} />
                     </div>}
+                </div> */}
+                    <div>
+                        <Button onClick={onAddAnother} text="+ Add New" type="button" className={styles.saveButton} />
+                    </div>
+                    <div>
+                        {/* <Button onClick={onSave} text="Save" type="button" className={styles.saveButton} /> */}
+                        <Button disabled={disNextBtn} text="Next" type="button" className={styles.nextButton} />
+                    </div>
                 </div>
-                <div>
-                    <Button onClick={onAddAnother} text="+ Add New" type="button" className={styles.saveButton} />
-                </div>
-                <div>
-                    {/* <Button onClick={onSave} text="Save" type="button" className={styles.saveButton} /> */}
-                    <Button disabled={disNextBtn} text="Next" type="button" className={styles.nextButton} />
-                </div>
-            </div>
+            </>
         )
     }
     else if (view == 'add field') {
@@ -415,8 +439,8 @@ function CandidateAcademicInfo() {
                         <div>
                             {
                                 showEdit ?
-                                <Button onClick={editField} type="button" text="Edit" className={styles.saveButton} /> :
-                                <Button type="submit" text="Add" className={styles.saveButton} />
+                                    <Button onClick={editField} type="button" text="Edit" className={styles.saveButton} /> :
+                                    <Button type="submit" text="Add" className={styles.saveButton} />
                             }
                             <Button onClick={onCancel} disabled={''} text="Cancel" type="button" className={styles.saveButton} />
                         </div>
