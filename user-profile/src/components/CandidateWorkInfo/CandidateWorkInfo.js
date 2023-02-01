@@ -4,7 +4,7 @@ import Heading from "../Heading/Heading"
 import DropdownField from "../DropdownField/DropdownField"
 import Button from "../Button/Button"
 import InputLabel from "../Label/InputLabel"
-import { useCallback, useState } from "react"
+import { useCallback, useState,useEffect } from "react"
 import { AlertMessage } from "../AlertMessage/AlertMessage"
 
 
@@ -12,8 +12,8 @@ export function CandidateWorkInfo() {
 
     const [company, setCompany] = useState("")
     const [CurrentlyWorking, setCurrentlyWorking] = useState(false)
-    const [startDate, setStartDate] = useState("")
-    const [endDate, setEndDate] = useState("")
+    const [startDate, setStartDate] = useState("2015-01-1")
+    const [endDate, setEndDate] = useState("2015-01-1")
     const [title, setTitle] = useState("")
     const [jobType, setJobType] = useState("")
     const [userId, setUserId] = useState(15)
@@ -26,8 +26,33 @@ export function CandidateWorkInfo() {
     const [alertType, setAlertType] = useState('alert');
     const [message, setMessage] = useState('');
     const [disEndDate, setDisEndDate] = useState(false)
+     
+    const basicRoute = 'http://192.168.0.160:8081/api/work_experience'
+    const getByUserIdUrl = `${basicRoute}/user`
+    const postUrl = basicRoute
+    const deleteUrl = basicRoute
+    const putUrl = basicRoute
 
+    useEffect(() => {
+        fetchData()
+    }, [])
 
+    const fetchData = () => {
+        fetch(`${getByUserIdUrl}/${userId}`)
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data)
+                setWorkData(data)
+                if (data.length !== 0) {
+                    setDisNextBtn(false)
+                }
+            })
+            .catch(err => {
+                console.log(err, "\nhello I caught this error");
+                setWorkData([]);
+                setDisNextBtn(true)
+            });
+    }
 
     const handleCompany = useCallback(val => {
         setCompany(val);
@@ -51,6 +76,7 @@ export function CandidateWorkInfo() {
     }, []);
     const handleEndDate = useCallback(val => {
         setEndDate(val);
+        setCurrentlyWorking('No')
     }, []);
     const handleTitle = useCallback(val => {
         setTitle(val);
@@ -75,20 +101,21 @@ export function CandidateWorkInfo() {
         setView('details')
     }, []);
 
-    const postUrl = ""
+    
     const onSubmit = (e) => {
         e.preventDefault();
         const obj = {
             userId,
             company,
-            CurrentlyWorking,
+            currentStatus: CurrentlyWorking,
             startDate,
             endDate,
             jobType,
-            title,
+            jobTitle: title,
         }
 
         console.log(obj)
+    
         fetch(postUrl, {
             method: 'POST',
             mode: 'cors',
@@ -132,6 +159,7 @@ export function CandidateWorkInfo() {
         setEndDate('')
         setTitle('')
         setJobType('')
+        setView('details')
 
     }
     if (view == 'details') {
@@ -147,9 +175,9 @@ export function CandidateWorkInfo() {
                                 <tr>
                                     <th>Company</th>
                                     <th>Currently Working</th>
-                                    <th>Title</th>
                                     <th>Start Date</th>
                                     <th>End Date</th>
+                                    <th>Title</th>
                                     <th>Job Type</th>
 
                                 </tr>
@@ -214,7 +242,7 @@ export function CandidateWorkInfo() {
                                 <td colspan="2"><InputField value={company} handler={handleCompany} type='text' pattern="[a-zA-Z ]*" placeholder='Company' className={styles.fullSize} required='required' icon='fa fa-briefcase' /></td>
                                 <td><InputLabel className={styles.inputLabel} text='Start Date'></InputLabel></td>
 
-                                <td colspan="2"><InputField value={startDate} handler={handleStartDate} min="1970-01-01" type='date' placeholder='Start Date' className={styles.inputFields} required='required' ></InputField></td>
+                                <td colspan="2"><InputField value={startDate} handler={handleStartDate} type='date' placeholder='Start Date' className={styles.inputFields} required='required' ></InputField></td>
                                 
                             </tr>
                             <tr>
@@ -244,7 +272,7 @@ export function CandidateWorkInfo() {
                                 </div></td>
                                 <td><InputLabel className={styles.inputLabel} text='End Date'></InputLabel></td>
 
-                                <td colspan="2"><InputField disabled={disEndDate} value={endDate} handler={handleEndDate} min="1970-01-01" type='date' placeholder='End Date' className={styles.inputFields} required='required' ></InputField></td>
+                                <td colspan="2"><InputField disabled={disEndDate} value={endDate} handler={handleEndDate}  type='date' placeholder='End Date' className={styles.inputFields} required='required' ></InputField></td>
                             </tr>
                             <tr>
                                 <td><InputLabel className={styles.inputLabel} text='Job Title'></InputLabel></td>
