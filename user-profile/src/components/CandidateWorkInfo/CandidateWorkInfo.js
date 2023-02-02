@@ -344,9 +344,9 @@ export function CandidateWorkInfo() {
                                                 okText="Yes"
                                                 cancelText="No"
                                             >
-                                                <Button onClick={() => onDelete(item.id)} type="button" text={<i class="fa fa-trash"></i>} />
+                                                <Button onClick={() => onDelete(item.id)} type="button" text={<i className="fa fa-trash"></i>} />
                                             </Popconfirm>
-                                                <Button onClick={() => onEdit(item)} type="button" text={<i class="fas fa-edit"></i>} />
+                                                <Button onClick={() => onEdit(item)} type="button" text={<i className="fas fa-edit"></i>} />
                                             </td>
 
                                         </tr>
