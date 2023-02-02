@@ -1,0 +1,70 @@
+/* .myphone{
+    width: 100%;
+    display: flex;
+} */
+
+.input-fields {
+    box-sizing: border-box;
+    padding: 10px 10px 10px 30px;
+    font-size: 1.2rem;
+    border-radius: 6px;
+    background-color:#f0f0f0;
+    outline: none;
+    width: 100%;
+    border: 1px solid #6270b1;
+  }
+  
+  .input-fields:hover, .PhoneInputCountrySelect:hover {
+    background-color: #ebe6e6;
+  }
+
+.PhoneInput {
+    display: flex;
+    width: 99%;
+    margin: 10px;
+}
+
+.PhoneInputCountry {
+    display: flex;
+}
+
+.PhoneInputCountrySelect {
+    width: 100px;
+    border: none;
+    font-size: 1.2rem;
+    border-radius: 6px;
+    background-color: #f0f0f0;
+    outline: none;
+
+}
+
+.PhoneInputCountryIconImg {
+    width: 20px;
+}
+
+.PhoneInputCountrySelectArrow {
+    display: none;
+}
+
+.PhoneInputInput {
+    margin-left: 5px;
+    border: none;
+    font-size: 1.2rem;
+    border-radius: 6px;
+    background-color: #f0f0f0;
+    outline: none;
+    height: 100%;
+    width: 100%;
+}
+ .global-icon {
+    position: relative;
+    top: 18px;
+    left: 25px;
+} 
+
+@media (max-width: 960px) {
+    /* styles for screens smaller than 450px */
+    .input-fields {
+      width: 100%;
+    }
+  }

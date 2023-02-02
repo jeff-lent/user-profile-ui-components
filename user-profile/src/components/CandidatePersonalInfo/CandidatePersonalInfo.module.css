@@ -1,0 +1,197 @@
+.mainContainer {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.formPersonalInfo {
+  padding: 0;
+  width: 65%;
+  margin-left: 20px;
+}
+
+
+/* Heading css */
+.personalInfoHeading {
+  margin: 10px;
+}
+
+
+/* Input css */
+
+.inputFieldIcons {
+  position: relative;
+  left: 25px;
+}
+
+.inputFields, .select {
+  -ms-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 10px 10px 10px 30px;
+  font-size: 1.2rem;
+  border-radius: 6px;
+  background-color: #F0F0F0;
+  outline: none;
+  border: 1px solid #6270B1;
+  width: 100%;
+  margin: 5px;
+
+}
+
+
+.inputFields:focus,
+.select:focus {
+  outline: none;
+  box-shadow: 0 0 10px #2196F3;
+}
+
+/* .fullSize {
+  width: 90%;
+  margin: 10px;
+}
+
+.halfSize {
+  width: 44.5%;
+  margin: 10px 0 10px 10px;
+} */
+
+.inputFields:hover,
+.PhoneInputCountrySelect:hover {
+  background-color: #ebe6e6;
+}
+
+/* .first-name-input , .last-name-input, .cnic-input, .date-input {
+width: 94%;
+} */
+
+
+/* Dropdown */
+
+/* .select {
+  -ms-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 10px 10px 10px 30px;
+  font-size: 1.2rem;
+  border-radius: 6px;
+  background-color: #f0f0f0;
+  outline: none;
+  width: 94%;
+  border: 1px solid #6270b1;
+} */
+
+.option {
+  text-transform: capitalize;
+}
+
+
+/* Button css */
+
+.buttonContainer {
+  display: flex;
+  text-align: center;
+  justify-content: flex-start;
+}
+
+.saveButton,
+.nextButton {
+  /* float: right; */
+  margin: 10px;
+  padding: 13px;
+  border-radius: 12px;
+  width: 80px;
+  background-color: #2196F3;
+  border: 1px solid white;
+  outline: none;
+  font-size: 1.1rem;
+  color: white;
+  cursor: pointer;
+  transition: ease-out 500ms;
+  margin-right: 7px;
+}
+
+.saveButton:hover,
+.nextButton:hover {
+  color: black;
+  background-color: white;
+  border: 1px solid #2196F3;
+}
+
+.nextButton:disabled,
+.nextButton:disabled:hover {
+  background-color: #7cc4ff;
+  color: white;
+  cursor: not-allowed;
+}
+
+.addMoreBtn {
+  width: 180px;
+  height: 35px;
+  padding: 0px;
+  border-radius: 30px;
+  outline: none;
+  border: none;
+  font-size: 1.1rem;
+  text-align: center;
+  background-color: #2196F3;
+  color: white;
+  display: block;
+
+}
+
+@media (max-width: 960px) {
+
+  /* styles for screens smaller than 450px */
+  .inputFields,
+  .select {
+    width: 100%;
+  }
+}
+
+/*  Radio Button CSS */
+
+.radioBtn {
+  width: 20px;
+  background-color: red;
+  height: 20px;
+}
+
+.radioBtn:checked {}
+
+.degreeProgressDiv {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 90%;
+  margin: 10px;
+}
+
+.graduationDate {
+  width: 300px;
+}
+
+/* TextArea css */
+.textArea {
+  padding: 10px 10px 10px 30px;
+  border-radius: 10px;
+  overflow: auto;
+  margin: 10px;
+  width: 86.5%;
+  background-color: #f0f0f0;
+  border: 1px solid #2196F3;
+  font-size: 1.2rem;
+}
+
+.textArea:focus {
+  outline: none;
+  box-shadow: 0 0 10px #2196F3;
+}
+
+.degreeProgressText {
+  font-size: 1.2rem;
+  margin-left: 13px;
+  /* font-weight: 600; */
+}
